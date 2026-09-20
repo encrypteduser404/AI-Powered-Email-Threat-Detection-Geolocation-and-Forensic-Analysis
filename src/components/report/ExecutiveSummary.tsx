@@ -1,0 +1,3 @@
+import type { ForensicReport } from '../../types/report'
+import { ReportSection } from './ReportSection'
+export function ExecutiveSummary({ report }: { report: ForensicReport }) { return <ReportSection eyebrow="Assessment" title="Executive Summary"><p className="report-summary">{report.executive_summary}</p><div className="report-stat-grid"><div><span>Threat type</span><strong>{report.incident.threat_type}</strong></div><div><span>Risk score</span><strong>{report.incident.risk_score} / 100</strong></div><div><span>Severity</span><strong>{report.incident.severity}</strong></div></div></ReportSection> }

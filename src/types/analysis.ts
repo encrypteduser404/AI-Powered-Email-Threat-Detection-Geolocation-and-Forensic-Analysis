@@ -34,7 +34,7 @@ export interface AuthenticationResult {
 
 export interface AnalysisUrl { value: string; verdict: 'Malicious' | 'Suspicious' | 'Clean' | 'Unknown'; reason?: string }
 export interface AnalysisAttachment { name: string; type: string; verdict: 'Malicious' | 'Suspicious' | 'Clean' | 'Unknown'; size?: string; sha256?: string }
-export interface AnalysisFinding { title: string; detail: string; severity: AnalysisSeverity; riskContribution?: number }
+export interface AnalysisFinding { id?: string; category?: string; title: string; detail: string; evidence?: string; severity: AnalysisSeverity; riskContribution?: number }
 export interface AnalysisIndicator { type: 'Domain' | 'IP address' | 'Hash' | 'URL' | 'Email'; value: string; source?: string; status?: 'Observed' | 'Review' | 'Clean' | 'Unknown' }
 export interface AnalysisTimelineEvent { label: string; timestamp: string; detail: string }
 export interface Geolocation { country: string; city: string; ip: string; region?: string; organization?: string; asn?: string; domain?: string }

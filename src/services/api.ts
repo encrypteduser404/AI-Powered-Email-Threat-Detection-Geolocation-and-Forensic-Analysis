@@ -1,4 +1,5 @@
 import type { AnalysisResult, AnalysisSeverity, AuthenticationResult, EmailMetadata } from '../types/analysis'
+import type { ForensicReport } from '../types/report'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'
 const REQUEST_TIMEOUT_MS = 15_000
@@ -100,5 +101,23 @@ export async function analyzeEmail(file: File): Promise<AnalysisResult> {
     throw new ApiError('Unable to reach the ECHO analysis engine.')
   } finally {
     window.clearTimeout(timeout)
+  }
+}
+
+export async function getForensicReport(incidentId: string): Promise<ForensicReport> {
+  const response = await fetch(`${API_BASE_URL}/api/reports/${encodeURIComponent(incidentId)}`)
+  const body: unknown = await response.json().catch(() => null)
+  if (!response.ok) {
+    const detail = isRecord(body) && typeof body.detail === 'string' ? body.detail : `Report service returned HTTP ${response.status}.`
+    throw new ApiError(detail, response.status)
+  }
+  if (!isRecord(body) || typeof body.report_id !== 'string' || !isRecord(body.evidence_provenance) || !isRecord(body.incident)) throw new ApiError('Report service returned an unexpected response.')
+  const report = body as unknown as Omit<ForensicReport, 'authentication' | 'url_evidence' | 'attachment_evidence' | 'findings'> & { authentication: { results: Record<string, string>; raw_evidence: string[]; note: string }; url_evidence: Array<Record<string, unknown>>; attachment_evidence: Array<Record<string, unknown>>; findings: Array<{ id?: string; category?: string; title: string; severity: string; description: string; evidence: string; risk_contribution: number }> }
+  return {
+    ...report,
+    authentication: { ...report.authentication, results: Object.fromEntries(Object.entries(report.authentication.results).map(([key, value]) => [key, authenticationState(String(value))])) as unknown as ForensicReport['authentication']['results'] },
+    url_evidence: report.url_evidence.map((url) => ({ url: String(url.url), domain: String(url.domain), scheme: String(url.scheme), indicators: Array.isArray(url.indicators) ? url.indicators.map(String) : [], status: String(url.status), risk_contribution: Number(url.risk_contribution ?? 0) })),
+    attachment_evidence: report.attachment_evidence.map((attachment) => ({ filename: String(attachment.filename), content_type: String(attachment.content_type), size_bytes: Number(attachment.size_bytes ?? 0), sha256: String(attachment.sha256), indicators: Array.isArray(attachment.indicators) ? attachment.indicators.map(String) : [], status: String(attachment.status) })),
+    findings: report.findings.map((finding) => ({ id: String(finding.id ?? ''), category: String(finding.category ?? ''), title: String(finding.title), detail: String(finding.description ?? ''), evidence: String(finding.evidence ?? ''), severity: titleCaseSeverity(String(finding.severity)), riskContribution: Number(finding.risk_contribution ?? 0) })),
   }
 }

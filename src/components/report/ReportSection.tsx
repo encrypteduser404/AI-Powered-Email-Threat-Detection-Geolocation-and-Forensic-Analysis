@@ -1,0 +1,2 @@
+import type { ReactNode } from 'react'
+export function ReportSection({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) { return <section className="report-section"><div className="report-section-heading"><div><p className="panel-kicker">{eyebrow}</p><h2>{title}</h2></div></div><div className="report-section-body">{children}</div></section> }

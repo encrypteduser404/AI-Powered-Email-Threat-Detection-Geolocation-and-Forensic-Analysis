@@ -90,3 +90,4 @@ class AnalysisResult(BaseModel):
     geolocation: None = None
     recommendations: list[str]
     analyzed_at: str
+    forensic_footprint: dict[str, object] | None = None

@@ -16,6 +16,7 @@ function App() {
           <Route path="analyze" element={<AnalyzeEmail />} />
           <Route path="investigation/:id" element={<Investigation />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="reports/:id" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

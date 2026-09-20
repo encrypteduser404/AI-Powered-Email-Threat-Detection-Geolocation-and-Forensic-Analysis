@@ -1,0 +1,15 @@
+import type { AnalysisResult } from '../types/analysis'
+import type { ForensicReport } from '../types/report'
+
+export function createLocalReport(result: AnalysisResult): ForensicReport {
+  const now = new Date().toISOString()
+  const unavailable = 'Unavailable for demo-only session'
+  return {
+    report_id: `ECH-RPT-DEMO-${result.incidentId}`,
+    generated_at: now,
+    incident: { incident_id: result.incidentId, risk_score: result.riskScore, severity: result.severity.toUpperCase(), threat_type: result.threatType },
+    executive_summary: `${result.threatType} assessment with a Risk Score of ${result.riskScore} / 100. This report is generated from the local demonstration case.`,
+    evidence_provenance: { evidence_id: `DEMO-${result.incidentId}`, incident_id: result.incidentId, source: { filename: 'Demo case', media_type: 'message/rfc822', size_bytes: 0, sha256: unavailable }, processing: { received_at: unavailable, analysis_started_at: unavailable, analysis_completed_at: result.analyzedAt, parser_version: 'demo-analysis', analysis_engine_version: 'demo-analysis' }, message: { sender: result.metadata.from, recipients: [result.metadata.to], subject: result.metadata.subject, message_id: result.metadata.messageId, date: result.metadata.date, reply_to: result.metadata.replyTo ? [result.metadata.replyTo] : [], return_path: result.metadata.returnPath ?? null }, header_evidence: { received_hops: [], authentication_headers: [] }, network_evidence: { observed_ips: [], observed_domains: [], observed_urls: result.urls.map((url) => url.value) }, artifact_evidence: { attachments: result.attachments.map((attachment) => attachment.name), attachment_hashes: result.attachments.flatMap((attachment) => attachment.sha256 ? [attachment.sha256] : []) }, integrity: { original_email_sha256: unavailable, evidence_manifest_sha256: unavailable } },
+    email_metadata: { sender: result.metadata.from, recipients: [result.metadata.to], subject: result.metadata.subject, message_id: result.metadata.messageId, date: result.metadata.date, reply_to: result.metadata.replyTo ? [result.metadata.replyTo] : [], return_path: result.metadata.returnPath ?? null }, authentication: { results: result.authentication, raw_evidence: [], note: 'Demo evidence only; no cryptographic or live DNS verification was performed.' }, routing: { received_hops: [], authentication_headers: [] }, url_evidence: result.urls.map((url) => ({ url: url.value, domain: url.value, scheme: 'https', indicators: url.reason ? [url.reason] : [], status: url.verdict.toUpperCase(), risk_contribution: 0 })), attachment_evidence: result.attachments.map((attachment) => ({ filename: attachment.name, content_type: attachment.type, size_bytes: 0, sha256: attachment.sha256 ?? unavailable, indicators: [], status: attachment.verdict.toUpperCase() })), ioc_manifest: result.indicators, findings: result.findings, infrastructure: null, forensic_timeline: result.timeline, recommendations: result.recommendations, analyst_notes: '', integrity: { original_email_sha256: unavailable, evidence_manifest_sha256: unavailable },
+  }
+}
