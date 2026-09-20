@@ -1,0 +1,9 @@
+From: IT Notices <it@example.com>
+To: analyst@echo.local
+Subject: Scheduled maintenance window
+Date: Sun, 20 Sep 2026 08:00:00 +0000
+Message-ID: <benign@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Routine maintenance is scheduled for Saturday. See https://status.example.com/maintenance.

@@ -1,0 +1,5 @@
+import { AlertCircle, CheckCircle2 } from 'lucide-react'
+import { SeverityBadge } from '../ui/SeverityBadge'
+import type { AnalysisResult } from '../../types/analysis'
+
+export function FindingList({ result }: { result: AnalysisResult }) { return <section className="investigation-panel findings-panel"><div className="investigation-section-heading"><div><p className="panel-kicker">Evidence review</p><h2>Why was this flagged?</h2></div><span className="section-count">{result.findings.length} findings</span></div><div className="finding-list">{result.findings.map((finding) => <article className="finding-row" key={finding.title}><div className="finding-icon">{finding.riskContribution ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}</div><div className="finding-copy"><div className="finding-title"><strong>{finding.title}</strong><SeverityBadge severity={finding.severity} /></div><span className="finding-status">{finding.riskContribution ? 'REVIEW' : 'CLEAR'}</span><p>{finding.detail}</p></div>{finding.riskContribution !== undefined ? <strong className="risk-contribution">+{finding.riskContribution} risk</strong> : null}</article>)}</div></section> }

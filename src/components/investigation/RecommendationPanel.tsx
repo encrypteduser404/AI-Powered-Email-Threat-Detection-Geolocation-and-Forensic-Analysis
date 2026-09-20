@@ -1,0 +1,4 @@
+import { ArrowRight, ShieldAlert } from 'lucide-react'
+import type { AnalysisResult } from '../../types/analysis'
+
+export function RecommendationPanel({ result }: { result: AnalysisResult }) { return <section className="investigation-panel recommendation-panel"><div className="investigation-section-heading"><div><p className="panel-kicker">Response planning</p><h2>Recommended actions</h2></div><span className="section-count">Analyst decision required</span></div><div className="recommendation-list">{result.recommendations.map((recommendation) => <div className="recommendation-row" key={recommendation}><ShieldAlert size={17} /><div><strong>Recommended</strong><p>{recommendation}</p></div><ArrowRight size={15} /></div>)}</div></section> }

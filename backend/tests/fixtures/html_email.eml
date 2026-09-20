@@ -1,0 +1,7 @@
+From: Web Sender <web@example.com>
+To: analyst@echo.local
+Subject: HTML notice
+MIME-Version: 1.0
+Content-Type: text/html; charset="utf-8"
+
+<html><body><p>Review <a href="https://example.org/path">this notice</a>.</p></body></html>

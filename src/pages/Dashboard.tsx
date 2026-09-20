@@ -1,0 +1,21 @@
+import { ArrowUpRight, CheckCircle2, Clock3, Mail, ShieldAlert } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { PageHeader } from '../components/ui/PageHeader'
+import { SeverityBadge } from '../components/ui/SeverityBadge'
+import { StatusBadge } from '../components/ui/StatusBadge'
+
+const activity = [34, 42, 31, 48, 55, 44, 68, 51, 62, 74, 59, 82, 67, 78]
+const investigations = [
+  { id: 'INV-2048', subject: 'Invoice overdue - immediate action', sender: 'billing@northbridge-payments.com', severity: 'Critical' as const, time: '12 min ago' },
+  { id: 'INV-2047', subject: 'Updated shared document', sender: 'sharepoint-notify@external-mail.net', severity: 'High' as const, time: '38 min ago' },
+  { id: 'INV-2043', subject: 'Payroll review required', sender: 'hr-services@contoso-support.org', severity: 'Medium' as const, time: '2 hr ago' },
+]
+
+export function Dashboard() {
+  return <>
+    <PageHeader eyebrow="Security Operations" title="Threat Intelligence Dashboard" description="Monitor analyzed emails, investigations and indicators." actions={<Link className="button button-primary" to="/analyze"><Mail size={16} />Analyze email</Link>} />
+    <section className="metric-grid" aria-label="Overview metrics"><div className="metric-block"><span>Emails analyzed</span><strong>1,284</strong><small><span className="trend-up">+8.4%</span> vs last period</small></div><div className="metric-block"><span>High risk</span><strong>63</strong><small><ShieldAlert size={13} /> 4.9% of analyzed</small></div><div className="metric-block"><span>Critical findings</span><strong className="metric-critical">19</strong><small>Requires review</small></div><div className="metric-block"><span>Open investigations</span><strong>47</strong><small><Clock3 size={13} /> 8 due today</small></div><div className="metric-block"><span>IOC matches</span><strong>82</strong><small>Across 31 domains</small></div></section>
+    <div className="dashboard-grid"><section className="panel activity-panel"><div className="panel-heading"><div><p className="panel-kicker">Threat activity</p><h2>Detection volume</h2></div><span className="panel-period">Last 14 days</span></div><div className="chart-area"><div className="chart-y-axis"><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span></div><div className="bar-chart">{activity.map((value, index) => <div className="bar-column" key={`${value}-${index}`}><span className="bar-value" style={{ height: `${value}%` }} /><small>{index % 2 === 0 ? `Sep ${6 + index / 2}` : ''}</small></div>)}</div></div><div className="chart-legend"><span><i className="legend-swatch swatch-detections" />Detections</span><span><i className="legend-swatch swatch-baseline" />Baseline</span></div></section><section className="panel health-panel"><div className="panel-heading"><div><p className="panel-kicker">System health</p><h2>Service status</h2></div><StatusBadge status="Operational" /></div><div className="health-list"><div><span><CheckCircle2 size={15} />Email parser</span><strong>248 ms</strong></div><div><span><CheckCircle2 size={15} />Indicator matcher</span><strong>312 ms</strong></div><div><span><CheckCircle2 size={15} />Evidence store</span><strong>184 ms</strong></div><div><span><CheckCircle2 size={15} />Report generator</span><strong>421 ms</strong></div></div><div className="health-footer"><span>Uptime</span><strong>99.98%</strong><span className="health-period">Last 30 days</span></div></section></div>
+    <section className="panel investigations-panel"><div className="panel-heading"><div><p className="panel-kicker">Recent investigations</p><h2>Latest flagged activity</h2></div><Link className="text-link" to="/investigation/INV-2048">View all <ArrowUpRight size={14} /></Link></div><div className="table-wrap"><table><thead><tr><th>Case ID</th><th>Subject</th><th>Sender</th><th>Severity</th><th>Detected</th></tr></thead><tbody>{investigations.map((item) => <tr key={item.id}><td><Link className="mono case-link" to={`/investigation/${item.id}`}>{item.id}</Link></td><td className="subject-cell">{item.subject}</td><td className="mono muted-cell">{item.sender}</td><td><SeverityBadge severity={item.severity} /></td><td className="muted-cell">{item.time}</td></tr>)}</tbody></table></div></section>
+  </>
+}

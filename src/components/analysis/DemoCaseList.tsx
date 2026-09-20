@@ -1,0 +1,7 @@
+import { Check, ChevronRight } from 'lucide-react'
+import { SeverityBadge } from '../ui/SeverityBadge'
+import type { DemoEmail } from '../../types/analysis'
+
+interface DemoCaseListProps { cases: DemoEmail[]; selectedId: string | null; onSelect: (email: DemoEmail) => void }
+
+export function DemoCaseList({ cases, selectedId, onSelect }: DemoCaseListProps) { return <section className="analysis-section demo-section"><div className="section-heading"><div><p className="panel-kicker">Presentation cases</p><h2>Built-in demo investigations</h2></div><span className="section-count">{cases.length} samples</span></div><div className="demo-list">{cases.map((item) => <button className={`demo-row ${selectedId === item.id ? 'selected' : ''}`} key={item.id} onClick={() => onSelect(item)}><span className="demo-check">{selectedId === item.id ? <Check size={13} /> : <ChevronRight size={14} />}</span><span className="demo-main"><strong>{item.title}</strong><small>{item.description}</small></span><span className="demo-sender"><strong>{item.sender}</strong><small>{item.domain}</small></span><span className="demo-evidence">{item.evidence}</span><SeverityBadge severity={item.threatLevel} /></button>)}</div></section> }

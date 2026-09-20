@@ -1,0 +1,19 @@
+From: dispatch@example.com
+To: analyst@echo.local
+Subject: Delivery document
+Date: Sun, 20 Sep 2026 13:00:00 +0000
+Message-ID: <attachment@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="ATTACH"
+
+--ATTACH
+Content-Type: text/plain; charset="utf-8"
+
+Please review the document.
+--ATTACH
+Content-Type: application/octet-stream
+Content-Disposition: attachment; filename="invoice.pdf.exe"
+Content-Transfer-Encoding: base64
+
+SGVsbG8gYXR0YWNobWVudCE=
+--ATTACH--

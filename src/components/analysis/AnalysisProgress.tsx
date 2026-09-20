@@ -1,0 +1,7 @@
+import { AnimatePresence, motion } from 'framer-motion'
+import { Check, LoaderCircle } from 'lucide-react'
+import type { AnalysisStep } from '../../types/analysis'
+
+interface AnalysisProgressProps { currentStep: number; steps: AnalysisStep[] }
+
+export function AnalysisProgress({ currentStep, steps }: AnalysisProgressProps) { return <AnimatePresence><motion.section className="progress-panel" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><div className="progress-heading"><div><p className="panel-kicker">Analysis in progress</p><h2>Inspecting message evidence</h2></div><span className="progress-count">{Math.min(currentStep + 1, steps.length)} / {steps.length}</span></div><div className="progress-track"><motion.span animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }} /></div><div className="progress-steps">{steps.map((step, index) => <div className={index < currentStep ? 'complete' : index === currentStep ? 'current' : ''} key={step}>{index < currentStep ? <Check size={14} /> : index === currentStep ? <LoaderCircle className="spin" size={14} /> : <span className="step-number">{index + 1}</span>}<span>{step}</span></div>)}</div></motion.section></AnimatePresence> }

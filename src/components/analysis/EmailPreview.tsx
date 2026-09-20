@@ -1,0 +1,7 @@
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
+import type { EmailMetadata } from '../../types/analysis'
+
+interface EmailPreviewProps { metadata: EmailMetadata; rawContent: string }
+
+export function EmailPreview({ metadata, rawContent }: EmailPreviewProps) { const [showHeaders, setShowHeaders] = useState(false); return <section className="analysis-section preview-section"><div className="section-heading"><div><p className="panel-kicker">Message preview</p><h2>What will be inspected</h2></div><span className="ready-label">Ready</span></div><div className="metadata-grid"><div><span>From</span><strong>{metadata.from}</strong></div><div><span>To</span><strong>{metadata.to}</strong></div><div className="metadata-wide"><span>Subject</span><strong>{metadata.subject}</strong></div><div><span>Date</span><strong>{metadata.date}</strong></div><div><span>Message-ID</span><strong className="mono metadata-id">{metadata.messageId}</strong></div><div><span>Attachments</span><strong>{metadata.attachmentCount}</strong></div><div><span>URLs detected</span><strong>{metadata.urlCount}</strong></div></div><button className="headers-toggle" onClick={() => setShowHeaders(!showHeaders)}>{showHeaders ? <ChevronUp size={14} /> : <ChevronDown size={14} />} {showHeaders ? 'Hide headers' : 'View headers'}</button>{showHeaders ? <pre className="headers-preview">{rawContent.split('\n\n')[0]}</pre> : null}</section> }

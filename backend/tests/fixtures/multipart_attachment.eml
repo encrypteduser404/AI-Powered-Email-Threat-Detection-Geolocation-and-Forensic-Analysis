@@ -1,0 +1,28 @@
+From: sender@example.com
+To: analyst@echo.local
+Subject: Attachment sample
+Date: Sun, 20 Sep 2026 10:00:00 +0000
+Message-ID: <multi-1@example.com>
+Received: from relay.example.com (192.0.2.10) by mx.echo.local;
+Received: from client.example.net (198.51.100.7) by relay.example.com;
+Authentication-Results: mx.echo.local; spf=neutral
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY"
+
+--BOUNDARY
+Content-Type: text/plain; charset="utf-8"
+
+See https://example.net/info.
+--BOUNDARY
+Content-Type: text/plain
+Content-Disposition: attachment
+Content-Transfer-Encoding: base64
+
+SGVsbG8gYXR0YWNobWVudCE=
+--BOUNDARY
+Content-Type: text/plain
+Content-Disposition: attachment; filename="notes.txt"
+Content-Transfer-Encoding: base64
+
+SGVsbG8gYXR0YWNobWVudCE=
+--BOUNDARY--

@@ -1,0 +1,1 @@
+"""ECHO backend application package."""

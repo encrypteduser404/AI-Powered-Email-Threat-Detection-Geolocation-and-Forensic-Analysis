@@ -1,0 +1,7 @@
+From: =?utf-8?Q?Broken_=C3?= <broken@example.com>
+To: analyst@echo.local
+Subject: =?utf-8?Q?Bad_=ZZ?=
+Message-ID: <malformed@example.com>
+Content-Type: text/plain; charset="utf-8"
+
+Malformed but parseable content.

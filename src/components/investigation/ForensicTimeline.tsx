@@ -1,0 +1,5 @@
+import { motion } from 'framer-motion'
+import { CheckCircle2 } from 'lucide-react'
+import type { AnalysisResult } from '../../types/analysis'
+
+export function ForensicTimeline({ result }: { result: AnalysisResult }) { return <section className="investigation-panel"><div className="investigation-section-heading"><div><p className="panel-kicker">Forensic sequence</p><h2>Investigation timeline</h2></div></div><div className="forensic-timeline">{result.timeline.map((event, index) => <motion.div className="timeline-event" key={`${event.label}-${event.timestamp}`} initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * .05 }}><span className="timeline-marker"><CheckCircle2 size={15} /></span><div><div className="timeline-heading"><strong>{event.label}</strong><time>{event.timestamp}</time></div><p>{event.detail}</p></div></motion.div>)}</div></section> }
